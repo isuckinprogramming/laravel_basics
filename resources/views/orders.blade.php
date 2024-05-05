@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Test Blade</title>
-</head>
-<body>
+@extends('components/pageLayout')
+@section('title') Orders @endsection
+@section("body-content")
+    @extends("components/pageNav")
 
-</body>
-</html>
+@endsection
