@@ -4,19 +4,21 @@
 
     @extends("/orders_crud/OrderDataForm")
 
-    @section("form-title") Update Order Entry : {{$orderName}} @endsection
-    @section("form-action-location"){{route("create-order-entry")}}@endsection
+    @section("form-title") Update Order Entry : @php
+            $name = $item_name;
+            echo $name;
+        @endphp
+    @endsection
+    @section("form-action-location"){{route("update-order-entry")}}@endsection
 
     @section("form-submit-button-title") Create Order @endsection
     @section("form-cancel-button-title") Cancel Order @endsection
 
-    @section("default-order-name") {{ $orderName }} @endsection
-    @section("default-order-price") {{ $orderPrice }} @endsection
-    @section("default-order-quantity") {{ $orderQuantity }} @endsection
-    @section("default-order-category-id") {{ $orderCategoryId }} @endsection
+    @section("current-entry-id"){{$id}}@endsection
+    @section("default-order-name")@php echo $name @endphp @endsection
+    @section("default-order-price"){{$price}}@endsection
+    @section("default-order-quantity"){{$quantity}}@endsection
+    @section("default-order-category-id"){{$category_id}}@endsection
 
     @extends("components/pageNav")
-
-
-
 @endsection
