@@ -4,6 +4,10 @@ use App\Http\Controllers\AccountsCRUD;
 use App\Http\Controllers\OrdersCRUD;
 use Illuminate\Support\Facades\Route;
 // use App\Model\orders;
+use Barryvdh\Debugbar\Facades\Debugbar;
+use Illuminate\Http\Request;
+
+use App\Models\orders;
 
 Route::get('/', function () {
     return view('homepage');
@@ -84,7 +88,60 @@ Route::post(
     [ OrdersCRUD::class,"update" ]
 )->name("update-order-entry");
 
-Route::post(
-    "update-entry-start",
-    [ OrdersCRUD::class,"showUpdatePage" ]
-);
+Route::get("update-entry-start", [OrdersCRUD::class,"showUpdatePage"]);
+
+Route::get(
+    "delete-order-entry",
+    [OrdersCRUD::class, "destroy"]
+)->name("remove-order");
+// Route::get(
+//     "update-entry-start",
+//         function(Request $request)
+//     {
+//         Debugbar::info($request);
+
+//         $entryId = $request->input("id");
+//         Debugbar::info($entryId);
+
+//         $entryData = orders::findOrFail($entryId);
+
+//         // $updatePageParameters = [
+//         //     "orderName" => $entryData["item_name"],
+//         //     "orderPrice" => $entryData->price,
+//         //     "orderQuantity" => $entryData->quantity,
+//         //     "orderCategoryId" => $entryData->category_id
+//         // ];
+//         Debugbar::info($entryData);
+
+//         Debugbar::info($entryData->getAttribute("item_name"));
+//         $data = [
+//             "item_name" => $entryData->getAttribute("item_name"),
+//             "price" => $entryData->getAttribute("price"),
+//             "quantity" => $entryData->getAttribute("quantity"),
+//             "category_id" => $entryData->getAttribute("category_id"),
+//         ];
+
+//         Debugbar::info($data);
+
+//         return view("/orders_crud/update", $data);
+//         // if ($entryData->isNotEmpty()) {
+
+//         // }
+//         // return redirect()->route("orders");
+//     }
+// );
+
+// Route::get(
+//     "go-to-update-page",
+//     function () {
+//         return view("/orders_crud/update");
+//     }
+// )->name("go-to-update-page");
+
+
+// Route::get(
+//     "valid-update-entry-process",
+    // function () {
+    //     return view();
+    // }
+// );
