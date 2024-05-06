@@ -16,10 +16,15 @@ return new class extends Migration
             function ( Blueprint $table ) {
                 $table->id();
                 $table->timestamps();
-                $table->string("category");
-                $table->string("name");
+                $table->bigInteger("category_id");
+                $table->string("item_name");
                 $table->double("price");
                 $table->integer("quantity");
+
+                $table->foreign("category_id")
+                    ->references("id")
+                    ->on("categories")
+                    ->onDelete("cascade");
             }
         );
     }
