@@ -22,6 +22,7 @@ class CheckOrderCreate extends FormRequest
     public function rules(): array
     {
         return [
+            "current-entry-id" => "",
             "order-name" => "required|string|max:200",
             "order-price" => "required|numeric|min:1",
             "order-quantity" => "required|int|min:0",
