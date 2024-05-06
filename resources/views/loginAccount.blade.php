@@ -4,22 +4,29 @@
 @extends('components/pageLayout')
 @section('title') Login Account @endsection
 @section("body-content")
-    {{-- @extends("components/pageNav") --}}
-    <a href="{{route("homepage")}}">Go to Home</a>
-    <a href="{{route("registerAccount")}}">Register</a>
+    <div class="container">
+        <div class="row justify-content-center vh-100">
+            <div class="col-md-6">
+                <h1>Log in Account</h1>
+                <form action="{{route("login account")}}" method="POST">
+                    @csrf
+                    <br>
+                    <label for="login-email">email</label> <br>
+                    <input class="form-control" type="text" name="login-email" id="loginEmail"> <br>
+
+                    <label for="login-password">password</label> <br>
+                    <input class="form-control" type="text" name="login-password" id="loginPassword"> <br>
+
+                    <br>
+                    <button class="btn btn-success" type="submit">Log in</button>
+                    <a href="{{route("registerAccount")}}"
+                    class="btn btn-outline-danger">Register</a>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
 
 
-    <h1>Log in Account</h1>
-    <form action="{{route("login account")}}" method="POST">
-        @csrf
-        <br>
-        <label for="login-email">email</label> <br>
-        <input type="text" name="login-email" id="loginEmail"> <br>
-
-        <label for="login-password">password</label> <br>
-        <input type="text" name="login-password" id="loginPassword"> <br>
-
-        <br>
-        <button type="submit">Log in</button>
-    </form>
 @endsection
