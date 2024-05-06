@@ -6,6 +6,9 @@
             <h1>@yield("form-title","no title default")</h1>
             <form action="@yield("form-action-location","#")" method="POST">
                 @csrf
+
+                <input type="hidden" name="current-entry-id" value="@yield("current-entry-id","")">
+
                 <label for="order-name">item name</label> <br>
                 <input
                     type="text"
