@@ -11,8 +11,6 @@ use Illuminate\Http\Request;
 
 class OrdersCRUD extends Controller
 {
-
-
     public function store(CheckOrderCreate $request)
     {
         $validatedData = $request->validated();
@@ -33,8 +31,6 @@ class OrdersCRUD extends Controller
         Debugbar::info("raw sdata : ". $request);
 
         $validatedData = $request->validated();
-        // Debugbar::info("Validated form data : ". $validatedData);
-
 
         $updateData = [
             "item_name" => $validatedData["order-name"],
@@ -42,14 +38,13 @@ class OrdersCRUD extends Controller
             "price" => $validatedData["order-price"],
             "quantity" => $validatedData["order-quantity"],
             "category_id" => $validatedData["order-category-id"]
-
         ];
         // Debugbar::info("Validated form data : ". $updateData);
 
         orders::where("id",$validatedData["current-entry-id"])->update($updateData);
+
         // Debugbar::info("Result from update query : ". $result);
         return redirect()->route("orders");
-
     }
 
     public function showUpdatePage(Request $request)
@@ -61,12 +56,6 @@ class OrdersCRUD extends Controller
 
         $entryData = orders::findOrFail($entryId);
 
-        // $updatePageParameters = [
-        //     "orderName" => $entryData["item_name"],
-        //     "orderPrice" => $entryData->price,
-        //     "orderQuantity" => $entryData->quantity,
-        //     "orderCategoryId" => $entryData->category_id
-        // ];
         Debugbar::info($entryData);
 
         Debugbar::info($entryData->getAttribute("item_name"));
@@ -81,13 +70,9 @@ class OrdersCRUD extends Controller
         Debugbar::info($data);
 
         return view("/orders_crud/update", $data);
-        // if ($entryData->isNotEmpty()) {
-
-        // }
-        // return redirect()->route("orders");
     }
 
-        public function destroy(Request $request)
+    public function destroy(Request $request)
     {
         $item = orders::findOrFail($request->input("id"));
         $item->delete();
@@ -96,7 +81,5 @@ class OrdersCRUD extends Controller
             redirect()->
             route("orders")->
             with('success', 'Order deleted successfully.');
-
     }
-
 }
