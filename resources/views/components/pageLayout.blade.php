@@ -11,9 +11,9 @@
     <title> @yield("title","page layout default title") </title>
     @yield("head-content")
     <link rel="stylesheet" href="{{asset("css/bootstrap.min.css")}}">
-    <script src="{{asset("js/bootstrap.bundle.min.js")}}"></script>
+    <script src="{{asset("js/dependency/bootstrap.bundle.min.js")}}"></script>
 
-    <script src="{{asset("js/jquery.min.js")}}"></script>
+    <script src="{{asset("js/dependency/jquery.min.js")}}"></script>
 
 </head>
 <body class="bg-dark-subtle">
