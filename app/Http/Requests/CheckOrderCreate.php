@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use \Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class CheckOrderCreate extends FormRequest
 {
@@ -48,5 +50,14 @@ class CheckOrderCreate extends FormRequest
             "order-category-id.required" => "The order-category-id field must be filled."
         ];
 
+    }
+
+    protected function failedValidation(Validator $validator){
+
+        $response = response()->json(
+            ["wrong-shit" => "this shit is wrong"],422
+        );
+
+        throw new HttpResponseException($response);
     }
 }
