@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CheckOrderCreate;
+use Illuminate\Http\Request;
 
 use App\Models\orders;
 use Barryvdh\Debugbar\Facades\Debugbar;
-use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Hash;
 
 class OrdersCRUD extends Controller
 {
@@ -25,10 +27,27 @@ class OrdersCRUD extends Controller
         return redirect()->route("orders");
     }
 
+    public function show() {
+
+
+        $retrievedTableData = orders::select(
+            "id",
+            "item_name",
+            "category_id",
+            "price",
+            "quantity"
+        )->get();
+
+        return view(
+        '/dashboard/orders',
+        ["tableData" => $retrievedTableData]
+        );
+    }
+
     public function update(CheckOrderCreate $request)
     {
 
-        Debugbar::info("raw sdata : ". $request);
+        Debugbar::info("raw data : ". $request);
 
         $validatedData = $request->validated();
 
@@ -47,19 +66,40 @@ class OrdersCRUD extends Controller
         return redirect()->route("orders");
     }
 
+
     public function showUpdatePage(Request $request)
+    {
+        $sessionDataKey = $request->input("session_data_key");
+        $dataOfEntryToBeUpdated = session()->get($sessionDataKey);
+
+        return view(
+        "/orders_crud/update",
+        $dataOfEntryToBeUpdated
+        );
+    }
+
+    /**
+     * The function accepts an entry id to be used to
+     * identify which order entry will be updated. Then
+     * returns an update view with the data of the entry to be updated.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function prepareUpdatePage(Request $request)
     {
         Debugbar::info($request);
 
         $entryId = $request->input("id");
+
         Debugbar::info($entryId);
 
         $entryData = orders::findOrFail($entryId);
 
         Debugbar::info($entryData);
-
         Debugbar::info($entryData->getAttribute("item_name"));
-        $data = [
+
+        $dataOfEntryToBeUpdated = [
             "id" => $entryData->getAttribute("id"),
             "item_name" => $entryData->getAttribute("item_name"),
             "price" => $entryData->getAttribute("price"),
@@ -67,9 +107,22 @@ class OrdersCRUD extends Controller
             "category_id" => $entryData->getAttribute("category_id"),
         ];
 
-        Debugbar::info($data);
+        $dataHashKey = Hash::make(uniqid());
 
-        return view("/orders_crud/update", $data);
+        session()->put("".$dataHashKey."" ,$dataOfEntryToBeUpdated);
+
+        Debugbar::info($dataOfEntryToBeUpdated);
+        // return view(
+        // "/orders_crud/update",
+        // $dataOfEntryToBeUpdated
+        // );
+
+        return json_encode(
+            [
+                "status" => true,
+                "session_data_key" => $dataHashKey
+            ]
+        );
     }
 
     public function destroy(Request $request)
@@ -82,4 +135,14 @@ class OrdersCRUD extends Controller
             route("orders")->
             with('success', 'Order deleted successfully.');
     }
+
+    // I plan to execute all queries here to handle all the exceptions inside the function and
+    // not redefine a try-catch for every function.
+    private function executeQueryAndHandleError()
+    {
+
+
+
+    }
+
 }
