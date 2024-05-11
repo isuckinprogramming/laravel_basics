@@ -1,7 +1,7 @@
 
 <div class="container m-4 p-2">
     <a class="btn btn-success m-2 p-4" href="{{route("create-order")}}">+ ADD</a>
-    <table class="table table-striped table-dark ">
+    <table class="table table-striped table-dark " id="orders-table">
         <thead class="rounded mt-3 p-2">
             <tr>
                 <th>category</th>
